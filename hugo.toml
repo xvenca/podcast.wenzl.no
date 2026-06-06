@@ -1,0 +1,25 @@
+baseURL = "https://podcast.wenzl.no/"
+defaultContentLanguage = "cs"
+title = "Podcast – Václav Wenzl"
+
+[languages]
+  [languages.cs]
+    locale = "cs-CZ"
+    weight = 1
+
+paginate = 12
+summaryLength = 70
+
+[taxonomies]
+  category = "categories"
+  tag      = "tags"
+
+[params]
+  description = "Vlastní podcastová platforma – Václav Wenzl"
+  author      = "Václav Wenzl"
+  siteURL     = "https://podcast.wenzl.no"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
