@@ -3,17 +3,26 @@
 <head>{{ partial "head.html" . }}</head>
 <body>
   {{ partial "nav.html" . }}
+
   <main class="main">
     <div class="container">
-      <h1>{{ .Title }}</h1>
+      <h1>Všechny epizody</h1>
       {{ range .Pages.ByDate.Reverse }}
       <article class="episode-card">
+        <div class="episode-card__meta">
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2. 1. 2006" }}</time>
+          {{ with .Params.episode }}<span class="episode-card__number">Ep. {{ . }}</span>{{ end }}
+          {{ with .Params.duration }}<span class="episode-card__duration">{{ . }}</span>{{ end }}
+        </div>
         <h2 class="episode-card__title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
         <p class="episode-card__desc">{{ .Summary }}</p>
       </article>
+      {{ else }}
+      <p class="empty-state">Zatím žádné epizody.</p>
       {{ end }}
     </div>
   </main>
+
   {{ partial "footer.html" . }}
 </body>
 </html>
