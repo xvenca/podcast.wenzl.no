@@ -1,0 +1,9 @@
+{{ with .Params.audio_url }}
+<div class="audio-player">
+  <audio controls preload="metadata">
+    <source src="{{ . }}" type="{{ $.Params.audio_type | default "audio/mpeg" }}">
+    Váš prohlížeč nepodporuje přehrávač audia.
+  </audio>
+  {{ with $.Params.duration }}<span class="audio-player__duration">{{ . }}</span>{{ end }}
+</div>
+{{ end }}

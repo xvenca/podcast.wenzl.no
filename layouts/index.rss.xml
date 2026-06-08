@@ -1,0 +1,59 @@
+{{- $pages := where .Site.RegularPages "Section" "episodes" -}}
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+  xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:podcast="https://podcastindex.org/namespace/1.0">
+  <channel>
+    <title>{{ .Site.Title | html }}</title>
+    <link>{{ .Site.BaseURL }}</link>
+    <atom:link href="{{ .Site.BaseURL }}index.xml" rel="self" type="application/rss+xml"/>
+    <description>{{ .Site.Params.description | html }}</description>
+    <language>{{ .Site.Params.podcast_language | default .Site.Language.Lang }}</language>
+    <lastBuildDate>{{ now.Format "Mon, 02 Jan 2006 15:04:05 -0700" }}</lastBuildDate>
+    <itunes:author>{{ .Site.Params.author }}</itunes:author>
+    <itunes:summary>{{ .Site.Params.description }}</itunes:summary>
+    <itunes:type>{{ .Site.Params.podcast_type | default "episodic" }}</itunes:type>
+    <itunes:explicit>{{ if .Site.Params.podcast_explicit }}true{{ else }}false{{ end }}</itunes:explicit>
+    <itunes:owner>
+      <itunes:name>{{ .Site.Params.author }}</itunes:name>
+      <itunes:email>{{ .Site.Params.email }}</itunes:email>
+    </itunes:owner>
+    {{ with .Site.Params.podcast_image }}
+    <image>
+      <url>{{ $.Site.BaseURL }}{{ . }}</url>
+      <title>{{ $.Site.Title }}</title>
+      <link>{{ $.Site.BaseURL }}</link>
+    </image>
+    <itunes:image href="{{ $.Site.BaseURL }}{{ . }}"/>
+    {{ end }}
+    {{ with .Site.Params.podcast_category }}
+    <itunes:category text="{{ . }}">
+      {{ with $.Site.Params.podcast_subcategory }}<itunes:category text="{{ . }}"/>{{ end }}
+    </itunes:category>
+    {{ end }}
+    {{ range $pages.ByDate.Reverse }}
+    {{ $ep := . }}
+    <item>
+      <title>{{ .Title | html }}</title>
+      <link>{{ .Permalink }}</link>
+      <guid isPermaLink="true">{{ .Permalink }}</guid>
+      <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" }}</pubDate>
+      <description>{{ .Summary | html }}</description>
+      <content:encoded><![CDATA[{{ .Content }}]]></content:encoded>
+      <itunes:author>{{ $.Site.Params.author }}</itunes:author>
+      <itunes:summary>{{ .Summary }}</itunes:summary>
+      {{ with .Description }}<itunes:subtitle>{{ . | html }}</itunes:subtitle>{{ end }}
+      {{ with .Params.duration }}<itunes:duration>{{ . }}</itunes:duration>{{ end }}
+      {{ with .Params.episode }}<itunes:episode>{{ . }}</itunes:episode>{{ end }}
+      {{ with .Params.season }}<itunes:season>{{ . }}</itunes:season>{{ end }}
+      <itunes:explicit>{{ if .Params.explicit }}true{{ else }}false{{ end }}</itunes:explicit>
+      {{ with .Params.audio_url }}
+      <enclosure url="{{ . }}" length="{{ $ep.Params.audio_length | default 0 }}" type="{{ $ep.Params.audio_type | default "audio/mpeg" }}"/>
+      {{ end }}
+      {{ with .Params.image }}<itunes:image href="{{ . }}"/>{{ end }}
+    </item>
+    {{ end }}
+  </channel>
+</rss>

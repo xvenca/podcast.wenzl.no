@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang }}">
+<head>{{ partial "head.html" . }}</head>
+<body>
+  {{ partial "nav.html" . }}
+
+  <main class="main">
+    <div class="container">
+      <article class="episode">
+        <header class="episode__header">
+          <div class="episode__meta">
+            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2. 1. 2006" }}</time>
+            {{ with .Params.episode }}
+            <span>Epizoda {{ . }}{{ with $.Params.season }}, Sezóna {{ . }}{{ end }}</span>
+            {{ end }}
+            {{ with .Params.duration }}<span>{{ . }}</span>{{ end }}
+          </div>
+          <h1>{{ .Title }}</h1>
+          {{ with .Description }}<p class="episode__subtitle">{{ . }}</p>{{ end }}
+        </header>
+
+        {{ partial "audio-player.html" . }}
+
+        <div class="episode__content">
+          {{ .Content }}
+        </div>
+      </article>
+
+      <nav class="episode-nav">
+        {{ with .PrevInSection }}
+        <a class="episode-nav__prev" href="{{ .Permalink }}">← {{ .Title }}</a>
+        {{ else }}<span></span>{{ end }}
+        {{ with .NextInSection }}
+        <a class="episode-nav__next" href="{{ .Permalink }}">{{ .Title }} →</a>
+        {{ end }}
+      </nav>
+    </div>
+  </main>
+
+  {{ partial "footer.html" . }}
+</body>
+</html>

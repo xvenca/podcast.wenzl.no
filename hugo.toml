@@ -4,20 +4,33 @@ title = "Podcast – Václav Wenzl"
 
 [languages]
   [languages.cs]
-    locale = "cs-CZ"
     weight = 1
+    [languages.cs.params]
+      locale = "cs-CZ"
 
 paginate = 12
 summaryLength = 70
+
+[outputs]
+  home    = ["HTML", "RSS"]
+  section = ["HTML", "RSS"]
+  page    = ["HTML"]
 
 [taxonomies]
   category = "categories"
   tag      = "tags"
 
 [params]
-  description = "Vlastní podcastová platforma – Václav Wenzl"
-  author      = "Václav Wenzl"
-  siteURL     = "https://podcast.wenzl.no"
+  description          = "Vlastní podcastová platforma – Václav Wenzl"
+  author               = "Václav Wenzl"
+  email                = "martin.vaclav.venclu@gmail.com"
+  siteURL              = "https://podcast.wenzl.no"
+  podcast_image        = "img/cover.jpg"
+  podcast_category     = "Technology"
+  podcast_subcategory  = ""
+  podcast_explicit     = false
+  podcast_type         = "episodic"
+  podcast_language     = "cs"
 
 [markup]
   [markup.goldmark]
